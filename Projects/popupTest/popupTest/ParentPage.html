@@ -1,0 +1,250 @@
+﻿<link href="../../../Content/CS/pickerstyles/pickerstyles.css" rel="stylesheet" />
+<div class="col-md-12 rightpane">
+    <div class="col-md-5">
+        <div class="row">
+            <label class="required label-bold col-md-8" aria-required="true">Name: </label>
+            <input class="form-control inputmanditory" type="text" maxlength="30" ng-model="contentTypeSaveRequest.Name"
+                   ng-disabled="actionFor==='edit'" ng-blur="madatoryField.name=true" ng-change="enableSaveButton()" ng-trim="false" />
+            <span class="mandatoryTxt" ng-show="(contentTypeSaveRequest.Name==='' || contentTypeSaveRequest.Name===undefined) && madatoryField.name && madatoryField.nameWithSpace==false"> Content Type Name is required. </span>
+            <span class="mandatoryTxt" ng-show="madatoryField.nameWithSpace"> Enter only alphabets and numbers without white spaces. </span>
+        </div>
+
+        <div class="row">
+            <label class="label-bold col-md-8" style="padding-left: 5px;">Description: </label>
+            <textarea class="form-control" ng-model="contentTypeSaveRequest.Description" cols="100" rows="5" style="width:100%"></textarea>
+        </div>
+    </div>
+<div class="col-md-12 rightpane">
+    <div class="col-md-5">
+        <label class="label-bold col-md-8" style="padding-left: 5px;">Template Url: </label>
+        <input class="form-control type=" text="" maxlength="500" ng-model="contentTypeSaveRequest.TemplateUrl"/>
+    </div>
+    <div class="col-md-7">
+        <a href="#" data-toggle="modal" data-target="#itemModal" ng-click="openTemplateUrlEditor(-1)" title="Edit Template Url">
+            <img src="../../../images/red-edit-icon-glossy-29.png" style="margin-bottom: 0px; width: 15px; height: 15px; margin-top: 32px;"/>
+        </a>
+    </div>
+
+</div>
+
+<div class="col-md-12 rightpane" style="padding-top: 15px">
+    <div class="col-md-6">
+        <div class="row">
+            <label class="label-bold" style="padding-left: 5px;"> Default Filter: </label>
+            <a href="#" ng-click="openAppliedfilterPopUp()" style="cursor: pointer" title="Pick Field">
+                <i class="fa fa-th-large fa-lg" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div ng-if="DefaultAppliedFilter!==undefined || DefaultAppliedFilter!==''">
+            <label style="padding-left: 5px;">{{DefaultAppliedFilter}}</label>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 rightpane">
+    <div class="col-md-5">
+        <div style="margin: 10px 0px 10px 0px;">
+            <label class="label-bold col-md-2" aria-required="true"> Fields: </label>
+            <cs-field-type-selector field-path="'FieldID'"
+                                    selection-mode="multiple"
+                                    filter-display-name="'Field Type'"
+                                    display-mode="modal"
+                                    selected-items="fieldSelected" group-collection-id="groupCollectionId">
+            </cs-field-type-selector>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 rightpane">
+    <div class="col-md-11">
+        <div class="dataTable">
+            <table id="VersionViewTable" class="table-hover">
+                <thead>
+                <tr class="wrapper">
+                    <th>Name</th>
+                    <th>Field Type</th>
+                    <th>Required</th>
+                    <th>ReadOnly</th>
+                    <th>Navigatable</th>
+                    <th>Filterable</th>
+                    <th>ViewField</th>
+                    <th>Translatable</th>
+                    <th>LocalField</th>
+                    <th>ID Field</th>
+                    <th>Template Url</th>
+                    <th>Action</th>
+                    <th>DefaultFilter</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="field in contentTypeSaveRequest.ContentTypeFields" style="cursor: pointer;" ng-class-odd="''" ng-class-even="'dataTableOdd'">
+                    <td class="text-left"><a href="#" ng-click="redirectToFieldDetail(field.FieldId,field.FieldKey)">{{field.FieldKey}}</a></td>
+
+                    <td class="text-left" ng-if="actionFor==='create'"> {{getFieldTypeOnCreate(field.FieldId)}}</td>
+                    <td class="text-left" ng-if="actionFor==='edit'">{{getFieldType(field.FieldId)}}</td>
+
+                    <td><input type="checkbox" ng-model="field.FieldRequired" ng-true-value="true" ng-false-value="false"/></td>
+                    <td><input type="checkbox" ng-model="field.FieldReadonly" ng-true-value="true" ng-false-value="false"/></td>
+                    <td><input type="checkbox" ng-model="field.FieldNavigatable" ng-true-value="true" ng-false-value="false"/></td>
+                    <td><input type="checkbox" ng-model="field.FieldFilterable" ng-true-value="true" ng-false-value="false"/></td>
+                    <td><input type="checkbox" ng-model="field.FieldViewField" ng-true-value="true" ng-false-value="false"/></td>
+                    <td><input type="checkbox" ng-model="field.FieldTranslatable" ng-click="field.FieldIsLocal= field.FieldTranslatable?false:field.FieldIsLocal" ng-disabled="field.FieldIsLocal" ng-true-value="true" ng-false-value="false"/></td>
+                    <td><input type="checkbox" ng-model="field.FieldIsLocal" ng-true-value="true" ng-false-value="false" ng-disabled="field.FieldTranslatable" ng-click="field.FieldTranslatable= field.FieldIsLocal?false:field.FieldTranslatable"/></td>
+                    <td><input type="checkbox" ng-model="field.FieldIdField" ng-if="showFieldId(field.FieldId,field.FieldIdField)" ng-true-value="true" ng-false-value="false"/></td>
+                    <td>
+                    <input type="text" ng-model="field.TemplateUrl"/>
+                    <a href="#" data-toggle="modal" data-target="#itemModal" ng-click="openTemplateUrlEditor($index)" title="Edit Template Url">
+                        <img src="../../../images/red-edit-icon-glossy-29.png" height="20px"/>
+                    </a>
+                    <td>
+                        <div style="width: 100%">
+                            <div style="display: inline-block; width: 10%">
+                                <a ng-click="Up(field)" ng-class="{'aBtnDisable':$first,'':!$first}" href="#"><i class="fa fa-arrow-up"></i> </a>
+                            </div>
+                            <div style="display: inline-block; width: 10%">
+                                <a ng-click="Down(field)" ng-class="{'aBtnDisable':$last,'':!$last}" href="#"><i class="fa fa-arrow-down"></i></a>
+                            </div>
+                            <div style="display: inline-block; width: 30%">
+                                <a ng-click="removeSelectedFields(field)" href="#">Remove</a>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!--<td width="3%"> <a ng-click="Up(field)" href="#"><i class="fa fa-arrow-up"></i> </a></td>
+                    <td width="3%"><a ng-click="Down(field)" href="#"><i class="fa fa-arrow-down"></i></a></td>
+                    <td width="8%"><a ng-click="removeSelectedFields(field)" href="#">Remove</a></td>-->
+                    <td >
+                        <!--<input ng-if="getFieldTypeOnCreate(field.FieldId)==='Reference' && actionFor==='create' " type="checkbox" ng-true-value="true" ng-false-value="false" ng-click="OpenReferenceFieldPopup($event,field)"/>-->
+                        <a ng-if="getFieldTypeOnCreate(field.FieldId)==='Reference' && actionFor==='create' && field.ReferenceCollectionId !==null" ng-click="OpenReferenceFieldPopup($event,field)" ng-model="field.FieldDefaultFilter">{{field.FieldDefaultFilter}}<i class="fa fa-external-link" style="float: right;margin-top: 5px; cursor: pointer;" aria-hidden="true"></i></a>
+                        <!--<input ng-if="getFieldType(field.FieldId)==='Reference' && actionFor==='edit' " type="checkbox" ng-true-value="true" ng-false-value="false" ng-click="OpenReferenceFieldPopup($event,field)"/>-->
+                        <a ng-if="getFieldType(field.FieldId)==='Reference' && actionFor==='edit'" ng-click="OpenReferenceFieldPopup($event,field)" data-toggle="modal" data-target="#itemModal1" data-backdrop="static" data-keyboard="false" ng-model="field.FieldDefaultFilter">{{field.FieldDefaultFilter}}<i class="fa fa-external-link" style="float: right;margin-top: 5px; cursor: pointer;" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="row col-md-12" style="padding-left: 0px">
+                <div class="pagination pull-left" style="float: left">
+                    <span ng-show="securityUserInputContainer.blockNumber > 1"><a href="#" ng-click="showLessItems()">&#171;Show Less </a></span>
+                    <span ng-show="securityUserInputContainer.showMoreButton===true"><a href="#" ng-click="fetchItems()">Show More &#187;</a></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1">
+        <a href="#" ng-click="openFieldPopUp()" style="cursor: pointer" title="Pick Field">
+            <i class="fa fa-th-large fa-lg" aria-hidden="true"></i>
+        </a>
+    </div>
+
+</div>
+
+
+
+<div class="col-md-12 rightpane">
+    <div class="col-md-6">
+        <div class="row">
+            <label class="label-bold col-md-8" aria-required="true"> Group: </label>
+            <cs-item-filter-selector scope-name="scopeName" mapping-name="'Groups'" collection-id="groupCollectionId"
+                                     collection-index-type="'1'" field-path="'Groups'" selection-mode="multiple"
+                                     filter-display-name="'Groups'" display-mode="modal"
+                                     collection-type="1" selected-items="groupSelectedObject"></cs-item-filter-selector>
+            <div class="groups-well col-md-10" style="margin-top: 0px; border-radius: 4px;">
+                <span ng-repeat="group in contentTypeSaveRequest.Groups" class="multiSelectTileView">
+                        {{getGroupName(group)}}
+                        <span ng-if="group=='None'">{{removeSelectedGroups(group)}}</span>
+                        <a href="#" ng-click="removeSelectedGroups(group)" class="btn btn-link groups-well-remove-button"><span class="glyphicon glyphicon-remove"></span></a>
+                    </span>
+            </div>
+            <div class="col-md-1">
+                <a href="#" ng-click="openGroupPopUp()" style="cursor: pointer">
+                    <i class="fa fa-th-large fa-lg" aria-hidden="true" title="Pick Group"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="col-md-12 rightpane">
+            <div class="col-lg-11 contentbox_hgt" ng-if="actionFor==='edit' && associatedCollections.length>0">
+                <a href="#" ng-click="showAssociatedCollections()" class="row">Collection Associated</a>
+                <div ng-show="showCollection===true">
+                    <table class="CMSGrid row">
+
+                        <tr>
+                            <td>Collection Name</td>
+                        </tr>
+                        <tr ng-repeat="collection in associatedCollections">
+                            <td><a href="#" ng-click="redirectToCollectionDetail(collection)">{{collection.CollectionName}}</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+<div id="itemModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 550px">
+        <div class="modal-content">
+            <div class="modal-header modal_header_top ref-cs-modal-header">
+                <h4 ng-show="templateUrlEditMode==='field'" class="modal-title">Field template url editor for : {{selectedItem.FieldKey}}</h4>
+                <h4 ng-show="templateUrlEditMode!=='field'" class="modal-title">Content Type template url editor for: {{contentTypeSaveRequest.Name}}</h4>
+            </div>
+            <div class="modal-body">
+                <textarea ng-show="templateUrlEditMode==='field'"
+                          ng-model="selectedItem.TemplateUrl"
+                          ng-maxlength="500"
+                          rows="2"
+                          class="form-control"></textarea>
+                <textarea ng-show="templateUrlEditMode!=='field'"
+                          ng-model="contentTypeSaveRequest.TemplateUrl"
+                          ng-maxlength="500"
+                          rows="2"
+                          class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <div class="pushBtn" ng-click="saveItem()" data-dismiss="modal">
+                        <div style="cursor: pointer; color: #000;">
+                            Ok
+                            <div class="bshape pull-right">
+                                <div class="btnIconb">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pushBtn" ng-click="cancel()" data-dismiss="modal">
+                        <div style="cursor: pointer; color: #000;">
+                            Cancel
+                            <div class="bshape pull-right">
+                                <div class="btnIconb">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="col-md-12" ng-if="RefContentTypeId!==undefined">
+        <form class="pickerPopup-window">
+            <div class='header'>
+                Picker Filter
+                <a href="#" ng-click="onViewCompareAction(false,null)" class="pull-right" style="margin-right: 19px; color: white;">
+                    <span>Close</span>
+                </a>
+            </div>
+            <div class='inner'>
+                <filter-picker content-type-id="RefContentTypeId" mode="'Popup'" operator-data="operatorData">
+                </filter-picker>
+            </div>
+        </form>
+    </div>
+
+
+</div>

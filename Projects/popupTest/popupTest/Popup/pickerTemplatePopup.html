@@ -1,0 +1,112 @@
+    <!--<div class='container'>
+        <div class='well col-md-6 '>
+            <div class="text-center">
+                <button type='button' data-toggle="modal" data-target="#myModal" class='btn btn-primary'> *</button>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="modal-content" ng-init="onInit()">
+        <!--<div class="popup-body">
+            <div class="container">
+                
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+
+                        <div class="modal-content">
+
+                            <div class="modal-body">-->
+                                <div>
+                                    <button class="btn btn-default pull-right" ng-click="addOperatorsData()">+</button>
+                                </div>
+                                <div class="modal-header modal_header_top ref-cs-modal-header">
+                                    <h4 class="modal-title">
+                                        Content Type:  SNPSKUContent
+                                    </h4>
+                                </div>
+
+                                <table class="table table-bordered">
+
+                                    <tr style="font-weight: bold">
+                                        <td class="col-md-2">Fields</td>
+                                        <td class="col-md-2">Operations</td>
+                                        <td class="col-md-2">Values</td>
+                                        <td class="col-md-2">Actions</td>
+                                    </tr>
+
+                                    <tr ng-repeat="pickerDetailObj in pickerDetails">
+                                        <td class="col-md-1">
+                                            <span editable-select="pickerDetailObj.fieldName"
+                                                  e-name="fieldName" e-form="rowform"
+                                                  e-ng-options="s as s for s in FieldNames"
+                                                  onbeforesave="checkEmpty($data)" e-required>
+                                                {{ pickerDetailObj.fieldName }}
+                                            </span>
+                                        </td>
+
+                                        <td class="col-md-2">
+                                            <span editable-select="pickerDetailObj.Operator"
+                                                  e-name="Operator" e-form="rowform"
+                                                  e-ng-options="s.text as s.text for s in Operators"
+                                                  onbeforesave="checkEmpty($data)" e-required>
+                                                {{ pickerDetailObj.Operator  }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-text="pickerDetailObj.value" e-name="value" e-form="rowform"
+                                                  onbeforesave="checkEmpty($data)" e-required>
+                                                {{ pickerDetailObj.value }}
+                                            </span>
+                                        </td>
+
+                                        <td style="white-space: nowrap">
+
+                                            <form editable-form name="rowform" onbeforesave="saveOperatorsData($data)"
+                                                  ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == pickerDetailObj">
+                                                <button type="submit" ng-disabled="rowform.$waiting" class="fa fa-floppy-o"></button>
+
+                                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()"
+                                                        class="fa fa-times"></button>
+
+                                                <div class="buttons" ng-show="!rowform.$visible">
+                                                    <!--<button class="fa fa-pencil-square-o" ng-click=""></button>-->
+                                                    <div style="display: inline-block; float: left; padding-right: 10px;">
+                                                        <a ng-click="rowform.$show()"><i class="fa fa-pencil-square-o"></i></a>
+                                                    </div>
+
+                                                    <div style="display: inline-block; float: left; padding-right: 10px;">
+                                                        <a ng-click="removeOperatorsData($index)"><i class="fa fa-trash-o"></i></a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div class="pushBtn pull-right" ng-click="sendOperatorsData()" data-dismiss="modal">
+                                    <a href="#">
+                                        Ok
+                                        <div class="bshape pull-right">
+                                            <div class="btnIconb">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="pushBtn pull-right" ng-click="" data-dismiss="modal">
+                                    <a href="#">
+                                        Cancel
+                                        <div class="bshape pull-right">
+                                            <div class="btnIconb">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <!--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+</div>
